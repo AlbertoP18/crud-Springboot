@@ -23,10 +23,10 @@ public class ProductoController {
             return productoService.findAll();
         }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Response> obtenerProducto(@PathVariable Long id) {
         Producto producto = productoService.findById(id);
-
         if (producto != null) {
             return ResponseEntity.status(200)
                     .body(new Response(true, "Producto encontrado" ));
@@ -34,26 +34,32 @@ public class ProductoController {
             return ResponseEntity.status(404)
                     .body(new Response(false, "Producto no encontrado"));
         }
-
-
     }
 
 
     @PostMapping("/save")
     public ResponseEntity<Response> guardarProducto(@RequestBody Producto producto) {
-        Producto nuevoProducto = productoService.save(producto);
 
-        if (nuevoProducto != null) {
-            return ResponseEntity.status(201)
-                    .body(new Response(true, "Producto guardado correctamente"));
-        } else {
+        if (!producto.Validaciones()) {
             return ResponseEntity.status(400)
-                    .body(new Response(false, "Error al guardar el producto"));
+                    .body(new Response(false, "Datos inválidos: el nombre no puede estar vacío y el precio/cantidad no pueden ser negativos"));
         }
+
+        Producto nuevoProducto = productoService.save(producto);
+        return ResponseEntity.status(201)
+                .body(new Response(true, "Producto guardado correctamente"));
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Response> actualizarProducto(@RequestBody Producto producto, @PathVariable Long id) {
+
+        if (!producto.Validaciones()) {
+            return ResponseEntity.status(400)
+                    .body(new Response(false, "Datos inválidos: el nombre no puede estar vacío y el precio/cantidad no pueden ser negativos"));
+        }
+
+
         Producto actualizado = productoService.update(producto, id);
 
         if (actualizado != null) {
@@ -61,9 +67,10 @@ public class ProductoController {
                     .body(new Response(true, "Producto actualizado correctamente"));
         } else {
             return ResponseEntity.status(404)
-                    .body(new Response(false, "No se pudo actualizar el producto"));
+                    .body(new Response(false, "No se pudo actualizar el producto "));
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> eliminarProducto(@PathVariable Long id) {

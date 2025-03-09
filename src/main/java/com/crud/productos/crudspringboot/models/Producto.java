@@ -30,4 +30,21 @@ public class Producto {
     private Integer cantidad;
 
 
+    public boolean Validaciones(){
+
+        if (this.precio < 0){
+            return false;
+        }
+
+        if(this.cantidad < 0 ){
+            return false;
+        }
+
+        if(this.nombre == null || this.nombre.isEmpty()){
+            return false;
+        }
+
+        return true;
+    }
+
 }
