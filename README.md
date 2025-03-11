@@ -70,7 +70,7 @@ Lógica de negocio de la aplicación:
 - **Metodo:**       POST
 - **Descripcion**   Inserta un nuevo producto en la base de datos
 
-  ### PUT /productos/{id}
+### PUT /productos/{id}
 
 - **Ruta:**         /productos/{id}
 - **Metodo:**       PUT
