@@ -1,5 +1,6 @@
 package com.crud.productos.crudspringboot.controller;
 
+import com.crud.productos.crudspringboot.dto.ProducResponseDto;
 import com.crud.productos.crudspringboot.models.Producto;
 import com.crud.productos.crudspringboot.models.Response;
 import com.crud.productos.crudspringboot.repository.IProductoRepository;
@@ -14,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/productos")
 public class ProductoController {
-
     @Autowired
     private ProductoService productoService;
 
@@ -25,14 +25,15 @@ public class ProductoController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> obtenerProducto(@PathVariable Long id) {
+    public ResponseEntity<ProducResponseDto> obtenerProducto(@PathVariable Long id) {
         Producto producto = productoService.findById(id);
+
         if (producto != null) {
             return ResponseEntity.status(200)
-                    .body(new Response(true, "Producto encontrado" ));
+                    .body(new ProducResponseDto("producto encontrado", producto ));
         } else {
             return ResponseEntity.status(404)
-                    .body(new Response(false, "Producto no encontrado"));
+                    .body(new ProducResponseDto("producto no encontrado", null ));
         }
     }
 
@@ -44,6 +45,7 @@ public class ProductoController {
             return ResponseEntity.status(400)
                     .body(new Response(false, "Datos inválidos: el nombre no puede estar vacío y el precio/cantidad no pueden ser negativos"));
         }
+
 
         Producto nuevoProducto = productoService.save(producto);
         return ResponseEntity.status(201)
