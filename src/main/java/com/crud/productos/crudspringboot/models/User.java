@@ -2,12 +2,12 @@ package com.crud.productos.crudspringboot.models;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "usuario")
 public class User {
     @Id

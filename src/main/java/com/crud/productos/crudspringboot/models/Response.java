@@ -15,10 +15,5 @@ public class Response {
     @Getter
     @Setter
     String message;
-
-
-    public void Message(String message, boolean success) {
-        this.message = message;
-        this.success = success;
-    }
+    
 }
